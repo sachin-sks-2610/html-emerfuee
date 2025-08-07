@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EMERFUE – On-Demand Fuel & Mechanic Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --primary: #1469cd;
+      --accent: #0fd2a6;
+      --sos: #e82047;
+      --surface: #fff;
+      --shadow: 0 4px 26px rgba(20, 105, 205, 0.1);
+      --radius: 22px;
+    }
+    body {
+      margin: 0;
+      background: linear-gradient(120deg, #f2f8fd 60%, #e9f5ff 100%);
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .wrapper {
+      max-width: 510px;
+      margin: 40px auto;
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 30px;
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      font-size: 2.3em;
+      margin: 0;
+    }
+    .logo {
+      width: 70px;
+      height: 70px;
+      margin: 12px auto;
+      background: linear-gradient(135deg, var(--primary) 60%, var(--accent) 100%);
+      border-radius: 50%;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1.9em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px rgba(0,0,0,0.1);
+    }
+    .tabs {
+      display: flex;
+      margin: 20px 0;
+    }
+    .tab {
+      flex: 1;
+      padding: 12px;
+      margin: 2px;
+      border: none;
+      cursor: pointer;
+      background: #eaf2fc;
+      color: #355d88;
+      font-weight: 600;
+      border-radius: 12px 12px 0 0;
+    }
+    .tab.active {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      color: white;
+    }
+    .content-box {
+      background: #f5fafe;
+      padding: 20px;
+      border-radius: 0 0 var(--radius) var(--radius);
+      display: none;
+    }
+    label {
+      font-weight: 500;
+      color: #333;
+      margin-top: 14px;
+      display: block;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 4px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      background: #f9fcfe;
+    }
+    button.submit-btn, button.sos-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.1em;
+    }
+    .submit-btn {
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+    .sos-btn {
+      background: linear-gradient(90deg, var(--sos), #ff5d7a);
+      animation: pulse 1.6s infinite;
+    }
+    .success {
+      margin-top: 20px;
+      color: var(--accent);
+      background: #d9fcf1;
+      padding: 15px;
+      border-radius: 12px;
+      display: none;
+      text-align: center;
+      font-weight: bold;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(232,32,71,0.15);}
+      70% { box-shadow: 0 0 0 15px rgba(232,32,71,0);}
+      100% { box-shadow: 0 0 0 0 rgba(232,32,71,0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="logo">EF</div>
+    <h1>EMERFUE</h1>
+
+    <div class="tabs">
+      <button class="tab active" id="deiselTab" onclick="showTab('deisel')">🚚 Diesel</button>
+      <button class="tab" id="petrolTab" onclick="showTab('petrol')">⛽ Petrol</button>
+      <button class="tab" id="mechTab" onclick="showTab('mech')">🔧 Mechanic</button>
+    </div>
+
+    <!-- Diesel -->
+    <div class="content-box" id="deiselBox">
+      <form id="deiselForm">
+        <label>Your Name*</label>
+        <input type="text" id="deisel-name" required>
+        <label>Phone*</label>
+        <input type="tel" id="deisel-phone" required pattern="[0-9 ]{8,15}">
+        <label>Diesel Quantity*</label>
+        <select id="deisel-qty" required>
+          <option value="5">5 Litres</option>
+          <option value="10">10 Litres</option>
+          <option value="custom">Other / Emergency</option>
+        </select>
+        <label>Location*</label>
+        <input type="text" id="deisel-location" readonly>
+        <label>Instructions</label>
+        <input type="text" id="deisel-inst" placeholder="e.g. parked near market gate">
+        <button type="button" class="sos-btn" onclick="fuelSOS('deisel')">🚨 SOS - 1 Litre Diesel</button>
+        <button type="submit" class="submit-btn">Order Diesel</button>
+      </form>
+    </div>
+
+    <!-- Petrol -->
+    <div class="content-box" id="petrolBox">
+      <form id="petrolForm">
+        <label>Your Name*</label>
+        <input type="text" id="petrol-name" required>
+        <label>Phone*</label>
+        <input type="tel" id="petrol-phone" required pattern="[0-9 ]{8,15}">
+        <label>Petrol Quantity*</label>
+        <select id="petrol-qty" required>
+          <option value="5">5 Litres</option>
+          <option value="10">10 Litres</option>
+          <option value="custom">Other / Emergency</option>
+        </select>
+        <label>Location*</label>
+        <input type="text" id="petrol-location" readonly>
+        <label>Instructions</label>
+        <input type="text" id="petrol-inst" placeholder="e.g. look for red gate">
+        <button type="button" class="sos-btn" onclick="fuelSOS('petrol')">🚨 SOS - 1 Litre Petrol</button>
+        <button type="submit" class="submit-btn">Order Petrol</button>
+      </form>
+    </div>
+
+    <!-- Mechanic -->
+    <div class="content-box" id="mechBox">
+      <form id="mechForm">
+        <label>Your Name*</label>
+        <input type="text" id="mech-name" required>
+        <label>Phone*</label>
+        <input type="tel" id="mech-phone" required pattern="[0-9 ]{8,15}">
+        <label>Location*</label>
+        <input type="text" id="mech-location" readonly>
+        <label>Issue*</label>
+        <select id="mech-prob" required>
+          <option value="">Select Problem</option>
+          <option value="not starting">Not Starting</option>
+          <option value="breakdown">Breakdown</option>
+          <option value="tyre puncture">Tyre Puncture</option>
+          <option value="chain issue">Chain Issue</option>
+          <option value="other">Other</option>
+        </select>
+        <label>Description</label>
+        <textarea id="mech-desc" placeholder="Optional details..."></textarea>
+        <button type="submit" class="submit-btn">Book Mechanic</button>
+      </form>
+    </div>
+
+    <div id="successMsg" class="success">✅ Request sent! Delivery staff notified.</div>
+  </div>
+
+  <script>
+    function showTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.content-box').forEach(b => b.style.display = 'none');
+      document.getElementById(tab + 'Tab').classList.add('active');
+      document.getElementById(tab + 'Box').style.display = 'block';
+    }
+
+    function setLocation(id) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(pos => {
+          document.getElementById(id).value = `Lat: ${pos.coords.latitude.toFixed(5)}, Long: ${pos.coords.longitude.toFixed(5)}`;
+        }, () => {
+          document.getElementById(id).value = "Unable to detect location";
+        });
+      } else {
+        document.getElementById(id).value = "Geolocation not supported";
+      }
+    }
+
+    function fuelSOS(prefix) {
+      document.getElementById(prefix + '-qty').value = 'custom';
+      document.getElementById(prefix + '-inst').value = '🚨 SOS Request for 1 Litre';
+    }
+
+    async function sendOrder(type) {
+      let payload = { type };
+      if (type === 'Diesel' || type === 'Petrol') {
+        let prefix = type.toLowerCase();
+        payload.name = document.getElementById(`${prefix}-name`).value;
+        payload.phone = document.getElementById(`${prefix}-phone`).value;
+        payload.qty = document.getElementById(`${prefix}-qty`).value;
+        payload.location = document.getElementById(`${prefix}-location`).value;
+        payload.instructions = document.getElementById(`${prefix}-inst`).value;
+      } else if (type === 'Mechanic') {
+        payload.name = document.getElementById(`mech-name`).value;
+        payload.phone = document.getElementById(`mech-phone`).value;
+        payload.location = document.getElementById(`mech-location`).value;
+        payload.problem = document.getElementById(`mech-prob`).value;
+        payload.details = document.getElementById(`mech-desc`).value;
+      }
+
+      try {
+        const res = await fetch('https://your-server-url.com/api/new-order', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok)
+          document.getElementById('successMsg').style.display = 'block';
+        else
+          alert('Error submitting request.');
+      } catch (err) {
+        console.error(err);
+        alert('Network error!');
+      }
+    }
+
+    document.getElementById('deiselForm').addEventListener('submit', e => {
+      e.preventDefault();
+      sendOrder('Diesel');
+    });
+    document.getElementById('petrolForm').addEventListener('submit', e => {
+      e.preventDefault();
+      sendOrder('Petrol');
+    });
+    document.getElementById('mechForm').addEventListener('submit', e => {
+      e.preventDefault();
+      sendOrder('Mechanic');
+    });
+
+    // Initial load
+    window.onload = () => {
+      showTab('deisel');
+      setLocation('deisel-location');
+      setLocation('petrol-location');
+      setLocation('mech-location');
+    };
+  </script>
+</body>
+</html>
