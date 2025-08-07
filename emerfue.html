@@ -282,6 +282,12 @@
       setLocation('petrol-location');
       setLocation('mech-location');
     };
+    const client = require('twilio')(accountSid, authToken);
+client.messages.create({
+  body: 'Test message',
+  from: TWILIO_NUMBER,        // e.g., '+1234567890'
+  to: '+919003950903'         // Full E.164 format (with +91 for India)
+}).then(m => console.log(m.sid)).catch(console.error);
   </script>
 </body>
 </html>
